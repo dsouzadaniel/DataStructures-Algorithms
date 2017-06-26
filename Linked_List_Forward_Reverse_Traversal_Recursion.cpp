@@ -1,5 +1,3 @@
-// C++ implementation of Singly Linked List Forward and Reverse Traversal using Recursion.
-
 #include<iostream>
 using namespace std;
 
@@ -11,6 +9,20 @@ struct node{
 class list{
 private:
     node* head, *tail;
+
+    // Private Helper Functions
+    void _traverseforward(node* curr){
+        if(curr==NULL) return;
+        cout<<curr->data<<"\t";
+        _traverseforward(curr->next);
+    }
+
+    void _traversereverse(node *curr){
+        if(curr==NULL){ return;}
+        _traversereverse(curr->next);
+        cout<<curr->data<<"\t";
+    }
+
 public:
     list(){
         head=NULL;
@@ -34,21 +46,14 @@ public:
 
     }
 
-    void traverseforward(node* curr){
-        if(curr==NULL) return;
-        cout<<curr->data<<"\t";
-        traverseforward(curr->next);
+    void traverseforward(){
+            _traverseforward(head);
+    };
+
+    void traversereverse(){
+            _traversereverse(head);
     }
 
-    void traversereverse(node *curr){
-        if(curr==NULL){ return;}
-        traversereverse(curr->next);
-        cout<<curr->data<<"\t";
-    }
-
-    node* gethead(){
-        return head;
-    }
 };
 
 int main(){
@@ -59,10 +64,10 @@ int main(){
     x.createnode(55);
     x.createnode(65);
     cout<<"Forward Traversal is : \n"<<endl;
-    x.traverseforward(x.gethead());
+    x.traverseforward();
     cout<<"\n \n";
     cout<<"Reverse Traversal is : \n"<<endl;
-    x.traversereverse(x.gethead());
+    x.traversereverse();
     cout<<"\n \n";
     return 0;
 }
