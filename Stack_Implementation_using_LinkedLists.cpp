@@ -76,8 +76,7 @@ node* stack_list::pop(node* top){
     }
     else{
         cout<<"\nValue popped is : "<<temp->info<<endl;
-        temp=temp->link;
-        top = temp;
+        top=temp->link;
         delete temp;
     }
     return top;
