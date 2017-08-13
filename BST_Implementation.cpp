@@ -1,5 +1,6 @@
 #include<iostream>
 #include<cstdlib>
+#include<stack>
 
 using namespace std;
 
@@ -25,6 +26,7 @@ public:
     void post_order(node*);
     void decreasing(node*);
     void height(node*, int*,int*);
+    void pre_orderOS(node*);
     BST(){
         root = NULL;
     }
@@ -37,7 +39,7 @@ int main(){
     while(1) {
         cout<<"\n \n Welcome to a BST Implementation"<<endl;
         cout << " Enter your choice!" << endl;
-        cout << "1. Insert \t 2. View \t 3. Delete \t 4. Pre_Order \t 5. Post_Order \t 6. In_Order \t 7. Decreasing \t 8. Height \t 15. Exit \t" << endl;
+        cout << "1. Insert \t 2. View \t 3. Delete \t 4. Pre_Order \t 5. Post_Order \t 6. In_Order \t 7. Decreasing \t 8. Height \t 15. Exit \t 99.Old_SCHOOL PreOrder \t" << endl;
         cin >> choice;
         switch (choice) {
             case 1:
@@ -74,7 +76,6 @@ int main(){
                 cout<<" \n \t Decreasing Order\n"<<endl;
                 tree.decreasing(root);
                 break;
-
             case 8:
                 cout<<" The Height of the Tree is :"<<endl;
                 height = 0;
@@ -85,6 +86,10 @@ int main(){
             case 15:
                 cout << "Exiting Program" << endl;
                 exit(1);
+            case 99:
+                cout<<"Old School PreOrder is "<<endl;
+                tree.pre_orderOS(root);
+                break;
             default:
                 cout<<"Wrong Choice"<<endl;
         }
@@ -105,30 +110,30 @@ void BST::insert(node *tree, node *val) {
         return;
     }
     if(tree->info>val->info){
-            if(tree->left!=NULL){
-                insert(tree->left,val);
-            }
-            else{
-                tree->left = new node;
-                (tree->left)->info = val->info;
-                (tree->left)->left = NULL;
-                (tree->left)->right = NULL;
-                return;
-            }
+        if(tree->left!=NULL){
+            insert(tree->left,val);
         }
+        else{
+            tree->left = new node;
+            (tree->left)->info = val->info;
+            (tree->left)->left = NULL;
+            (tree->left)->right = NULL;
+            return;
+        }
+    }
     else {
-                if(tree->right!=NULL){
-                    insert(tree->right,val);
-                }
-                else{
-                    tree->right = new node;
-                    (tree->right)->info = val->info;
-                    (tree->right)->left = NULL;
-                    (tree->right)->right = NULL;
-                    return;
-                }
-            }
+        if(tree->right!=NULL){
+            insert(tree->right,val);
         }
+        else{
+            tree->right = new node;
+            (tree->right)->info = val->info;
+            (tree->right)->left = NULL;
+            (tree->right)->right = NULL;
+            return;
+        }
+    }
+}
 
 void BST::display(node *ptr, int level)
 {
@@ -167,20 +172,20 @@ void BST::find(int value,node** par,node** loc) {
         else{
             ptr = root->right;
         }
-    while(ptr!=NULL){
-        if(ptr->info == value){
-            *loc = ptr;
-            *par = ptrsave;
-            return;
+        while(ptr!=NULL){
+            if(ptr->info == value){
+                *loc = ptr;
+                *par = ptrsave;
+                return;
+            }
+            ptrsave = ptr;
+            if(ptr->info > value){
+                ptr=ptr->left;
+            }
+            else{
+                ptr=ptr->right;
+            }
         }
-        ptrsave = ptr;
-        if(ptr->info > value){
-            ptr=ptr->left;
-        }
-        else{
-            ptr=ptr->right;
-        }
-    }
         *loc = NULL;
         *par = NULL;
         return;
@@ -257,7 +262,7 @@ void BST::case_b(node* par, node* loc){
     else{
         par->right = child;
     }
-return;
+    return;
 }
 
 // This is when both the children are non-null
@@ -292,7 +297,7 @@ void BST::case_c(node* par, node* loc){
     suc->left = loc->left;
     suc->right = loc->right;
     return;
-    }
+}
 
 void BST::pre_order(node *ptr) {
     if(root==NULL){
@@ -339,9 +344,9 @@ void BST::decreasing(node *ptr) {
         return;
     }
     if(ptr!=NULL){
-       decreasing(ptr->right);
-       cout<<ptr->info<<"   ";
-       decreasing(ptr->left);
+        decreasing(ptr->right);
+        cout<<ptr->info<<"   ";
+        decreasing(ptr->left);
     }
     return;
 }
@@ -363,4 +368,17 @@ void BST::height(node* ptr, int* val, int* temp){
         }
         return;
     }
+}
+
+void BST::pre_orderOS(node* ptr) {
+    stack<node*> x;
+    x.push(ptr);
+    while(x.size()){
+        node* curr = x.top();
+        x.pop();
+        cout<<curr->info<<"\t";
+        if(curr->right) x.push(curr->right);
+        if(curr->left) x.push(curr->left);
+    }
+
 }
