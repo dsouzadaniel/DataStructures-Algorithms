@@ -27,6 +27,7 @@ public:
     void decreasing(node*);
     void height(node*, int*,int*);
     void pre_orderOS(node*);
+    void lca(node*,int,int);
     BST(){
         root = NULL;
     }
@@ -36,10 +37,12 @@ int main(){
     int choice,num;
     BST tree;
     node* temp;
+    node *lca1, *lca2;
+    int n1,n2;
     while(1) {
         cout<<"\n \n Welcome to a BST Implementation"<<endl;
         cout << " Enter your choice!" << endl;
-        cout << "1. Insert \t 2. View \t 3. Delete \t 4. Pre_Order \t 5. Post_Order \t 6. In_Order \t 7. Decreasing \t 8. Height \t 15. Exit \t 99.Old_SCHOOL PreOrder \t" << endl;
+        cout << "1. Insert \t 2. View \t 3. Delete \t 4. Pre_Order \t 5. Post_Order \t 6. In_Order \t 7. Decreasing \t 8. Height \t 9. LCA \t 15. Exit \t 99.Old_SCHOOL PreOrder \t" << endl;
         cin >> choice;
         switch (choice) {
             case 1:
@@ -82,6 +85,14 @@ int main(){
                 theight = 0;
                 tree.height(root,&height,&theight);
                 cout<<height<<endl;
+                break;
+            case 9 :
+                cout<<"Enter the 2 numbers whose LCA(Lowest Common Ancestor is required \n"<<endl;
+                cin>>n1;
+                cout<<"\n";
+                cin>>n2;
+                cout<<"\n The Lowest Common Ancestor between "<<n1<<" and "<<n2<<" is : \n"<<endl;
+                tree.lca(root,n1,n2);
                 break;
             case 15:
                 cout << "Exiting Program" << endl;
@@ -381,4 +392,20 @@ void BST::pre_orderOS(node* ptr) {
         if(curr->left) x.push(curr->left);
     }
 
+}
+
+void BST::lca(node* ptr, int n1, int n2){
+    while(ptr!=NULL){
+        int val = ptr->info;
+        if(val>n1 && val>n2)
+            ptr = ptr->left;
+        else if(val<n1 && val<n2)
+            ptr= ptr->right;
+        else{
+            cout<<ptr->info<<endl;
+            return;
+        }
+    }
+    cout<<"Atleast one of the nodes doesn't exist in your BST"<<endl;
+    return;
 }
