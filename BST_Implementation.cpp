@@ -198,7 +198,7 @@ void BST::find(int value,node** par,node** loc) {
             }
         }
         *loc = NULL;
-        *par = NULL;
+        *par = ptrsave;
         return;
     }
 }
